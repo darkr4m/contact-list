@@ -17,7 +17,6 @@ class ContactList:
         remove_contact(name)
         find_shared_contacts(ContactList)
 
-
     """
     def __init__(self,name,contacts):
         self._name = name
@@ -25,30 +24,37 @@ class ContactList:
 
     # Getters and setters
     @property
-    def name(self):
+    def get_name(self):
         return self._name
-    @name.setter
-    def name(self,name):
+    @get_name.setter
+    def set_name(self,name):
         if isinstance(name, str):
             self._name = name
         else:
             print("Name must be a string.")
     
     @property
-    def contacts(self):
+    def get_contacts(self):
         return self._contacts
-    @contacts.setter
-    def contacts(self,contacts):
+    @get_contacts.setter
+    def set_contacts(self,contacts):
         self._contacts = contacts
 
     def add_contact(self, contact):
-        contacts = self.contacts
+        contacts = self.get_contacts
         contacts.append(contact)
-        self.contacts = sorted(contacts, key=lambda x: x['name'])
+        self.set_contacts = sorted(contacts, key=lambda x: x['name'])
 
     def remove_contact(self,name):
-        contacts = [c for c in self.contacts if c['name'] != name]
-        print(contacts)
+             # List comprehension - create new list based on existing one
+            #  create a new list without the name specified
+            contacts = [c for c in self.get_contacts if c['name'] != name]
+            self.set_contacts = contacts
+            print(f'Contact {name} deleted.')
 
-
-list = ContactList('Me', [{'name':'Mac','number':'444-2231'}])
+    def find_shared_contacts(self, list):
+        shared_contacts = []
+        for contact in self.get_contacts:
+            if contact in list.get_contacts:
+                shared_contacts.append(contact)
+        return shared_contacts
